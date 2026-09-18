@@ -10,33 +10,43 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ApiPublicHooksGunSonuRouteImport } from './routes/api/public/hooks/gun-sonu'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiPublicHooksGunSonuRoute = ApiPublicHooksGunSonuRouteImport.update({
+  id: '/api/public/hooks/gun-sonu',
+  path: '/api/public/hooks/gun-sonu',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/api/public/hooks/gun-sonu': typeof ApiPublicHooksGunSonuRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/api/public/hooks/gun-sonu': typeof ApiPublicHooksGunSonuRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/api/public/hooks/gun-sonu': typeof ApiPublicHooksGunSonuRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths: '/' | '/api/public/hooks/gun-sonu'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '/api/public/hooks/gun-sonu'
+  id: '__root__' | '/' | '/api/public/hooks/gun-sonu'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ApiPublicHooksGunSonuRoute: typeof ApiPublicHooksGunSonuRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +58,19 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/hooks/gun-sonu': {
+      id: '/api/public/hooks/gun-sonu'
+      path: '/api/public/hooks/gun-sonu'
+      fullPath: '/api/public/hooks/gun-sonu'
+      preLoaderRoute: typeof ApiPublicHooksGunSonuRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ApiPublicHooksGunSonuRoute: ApiPublicHooksGunSonuRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

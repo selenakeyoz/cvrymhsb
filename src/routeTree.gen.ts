@@ -10,12 +10,47 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
+import { Route as AuthenticatedKatlarRouteImport } from './routes/_authenticated/katlar'
+import { Route as AuthenticatedMenuRouteImport } from './routes/_authenticated/menu'
+import { Route as AuthenticatedMuhasebeRouteImport } from './routes/_authenticated/muhasebe'
+import { Route as AuthenticatedMutfakRouteImport } from './routes/_authenticated/mutfak'
+import { Route as AuthenticatedYonetimRouteImport } from './routes/_authenticated/yonetim'
 import { Route as ApiPublicHooksGunSonuRouteImport } from './routes/api/public/hooks/gun-sonu'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
+  id: '/_authenticated',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedKatlarRoute = AuthenticatedKatlarRouteImport.update({
+  id: '/katlar',
+  path: '/katlar',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedMenuRoute = AuthenticatedMenuRouteImport.update({
+  id: '/menu',
+  path: '/menu',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedMuhasebeRoute = AuthenticatedMuhasebeRouteImport.update({
+  id: '/muhasebe',
+  path: '/muhasebe',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedMutfakRoute = AuthenticatedMutfakRouteImport.update({
+  id: '/mutfak',
+  path: '/mutfak',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedYonetimRoute = AuthenticatedYonetimRouteImport.update({
+  id: '/yonetim',
+  path: '/yonetim',
+  getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const ApiPublicHooksGunSonuRoute = ApiPublicHooksGunSonuRouteImport.update({
   id: '/api/public/hooks/gun-sonu',
@@ -25,27 +60,67 @@ const ApiPublicHooksGunSonuRoute = ApiPublicHooksGunSonuRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/katlar': typeof AuthenticatedKatlarRoute
+  '/menu': typeof AuthenticatedMenuRoute
+  '/muhasebe': typeof AuthenticatedMuhasebeRoute
+  '/mutfak': typeof AuthenticatedMutfakRoute
+  '/yonetim': typeof AuthenticatedYonetimRoute
   '/api/public/hooks/gun-sonu': typeof ApiPublicHooksGunSonuRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/katlar': typeof AuthenticatedKatlarRoute
+  '/menu': typeof AuthenticatedMenuRoute
+  '/muhasebe': typeof AuthenticatedMuhasebeRoute
+  '/mutfak': typeof AuthenticatedMutfakRoute
+  '/yonetim': typeof AuthenticatedYonetimRoute
   '/api/public/hooks/gun-sonu': typeof ApiPublicHooksGunSonuRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
+  '/_authenticated/katlar': typeof AuthenticatedKatlarRoute
+  '/_authenticated/menu': typeof AuthenticatedMenuRoute
+  '/_authenticated/muhasebe': typeof AuthenticatedMuhasebeRoute
+  '/_authenticated/mutfak': typeof AuthenticatedMutfakRoute
+  '/_authenticated/yonetim': typeof AuthenticatedYonetimRoute
   '/api/public/hooks/gun-sonu': typeof ApiPublicHooksGunSonuRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/api/public/hooks/gun-sonu'
+  fullPaths:
+    | '/'
+    | '/katlar'
+    | '/menu'
+    | '/muhasebe'
+    | '/mutfak'
+    | '/yonetim'
+    | '/api/public/hooks/gun-sonu'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/api/public/hooks/gun-sonu'
-  id: '__root__' | '/' | '/api/public/hooks/gun-sonu'
+  to:
+    | '/'
+    | '/katlar'
+    | '/menu'
+    | '/muhasebe'
+    | '/mutfak'
+    | '/yonetim'
+    | '/api/public/hooks/gun-sonu'
+  id:
+    | '__root__'
+    | '/'
+    | '/_authenticated'
+    | '/_authenticated/katlar'
+    | '/_authenticated/menu'
+    | '/_authenticated/muhasebe'
+    | '/_authenticated/mutfak'
+    | '/_authenticated/yonetim'
+    | '/api/public/hooks/gun-sonu'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   ApiPublicHooksGunSonuRoute: typeof ApiPublicHooksGunSonuRoute
 }
 
@@ -58,6 +133,48 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated': {
+      id: '/_authenticated'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AuthenticatedRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated/katlar': {
+      id: '/_authenticated/katlar'
+      path: '/katlar'
+      fullPath: '/katlar'
+      preLoaderRoute: typeof AuthenticatedKatlarRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/menu': {
+      id: '/_authenticated/menu'
+      path: '/menu'
+      fullPath: '/menu'
+      preLoaderRoute: typeof AuthenticatedMenuRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/muhasebe': {
+      id: '/_authenticated/muhasebe'
+      path: '/muhasebe'
+      fullPath: '/muhasebe'
+      preLoaderRoute: typeof AuthenticatedMuhasebeRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/mutfak': {
+      id: '/_authenticated/mutfak'
+      path: '/mutfak'
+      fullPath: '/mutfak'
+      preLoaderRoute: typeof AuthenticatedMutfakRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/yonetim': {
+      id: '/_authenticated/yonetim'
+      path: '/yonetim'
+      fullPath: '/yonetim'
+      preLoaderRoute: typeof AuthenticatedYonetimRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/api/public/hooks/gun-sonu': {
       id: '/api/public/hooks/gun-sonu'
       path: '/api/public/hooks/gun-sonu'
@@ -68,8 +185,28 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface AuthenticatedRouteRouteChildren {
+  AuthenticatedKatlarRoute: typeof AuthenticatedKatlarRoute
+  AuthenticatedMenuRoute: typeof AuthenticatedMenuRoute
+  AuthenticatedMuhasebeRoute: typeof AuthenticatedMuhasebeRoute
+  AuthenticatedMutfakRoute: typeof AuthenticatedMutfakRoute
+  AuthenticatedYonetimRoute: typeof AuthenticatedYonetimRoute
+}
+
+const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedKatlarRoute: AuthenticatedKatlarRoute,
+  AuthenticatedMenuRoute: AuthenticatedMenuRoute,
+  AuthenticatedMuhasebeRoute: AuthenticatedMuhasebeRoute,
+  AuthenticatedMutfakRoute: AuthenticatedMutfakRoute,
+  AuthenticatedYonetimRoute: AuthenticatedYonetimRoute,
+}
+
+const AuthenticatedRouteRouteWithChildren =
+  AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   ApiPublicHooksGunSonuRoute: ApiPublicHooksGunSonuRoute,
 }
 export const routeTree = rootRouteImport

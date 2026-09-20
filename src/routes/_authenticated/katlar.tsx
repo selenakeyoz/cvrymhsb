@@ -177,31 +177,33 @@ function FloorsPage() {
   };
 
   return (
-    <div className="flex min-h-screen">
-      <div className="flex w-32 shrink-0 flex-col gap-2 border-r border-border p-3">
-        {FLOORS.map((f) => (
-          <button
-            key={f}
-            onClick={() => {
-              setFloor(f);
-              setTable(null);
-            }}
-            className={`rounded-md px-3 py-4 text-sm font-semibold transition-colors ${
-              floor === f
-                ? "bg-primary text-primary-foreground"
-                : "border border-border hover:bg-accent"
-            }`}
-          >
-            Kat {f}
-          </button>
-        ))}
-      </div>
-
-      <div className="flex-1 p-6">
-        <h1 className="font-display text-3xl">KAT {floor} — MASALAR</h1>
-        <p className="mb-5 text-sm text-muted-foreground">
+    <div className="flex min-h-full flex-col lg:flex-row">
+      <div className="min-w-0 flex-1 p-4 sm:p-6">
+        <h1 className="font-display text-2xl sm:text-3xl">KAT {floor} — MASALAR</h1>
+        <p className="mb-4 text-sm text-muted-foreground">
           Sipariş eklemek veya hesabı kapatmak için bir masaya dokunun.
         </p>
+
+        {/* Kat seçimi — mobilde üstte yatay */}
+        <div className="mb-5 flex gap-2 lg:hidden">
+          {FLOORS.map((f) => (
+            <button
+              key={f}
+              onClick={() => {
+                setFloor(f);
+                setTable(null);
+              }}
+              className={`flex-1 rounded-md px-3 py-3 text-sm font-semibold transition-colors ${
+                floor === f
+                  ? "bg-primary text-primary-foreground"
+                  : "border border-border hover:bg-accent"
+              }`}
+            >
+              Kat {f}
+            </button>
+          ))}
+        </div>
+
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-4 lg:grid-cols-5">
           {TABLES.map((t) => {
             const total = totalOf(floor, t);
@@ -215,9 +217,7 @@ function FloorsPage() {
                 }`}
               >
                 <p className="font-display text-2xl leading-none">{t}</p>
-                <p className="mt-2 text-xs text-muted-foreground">
-                  {busy ? money(total) : "Boş"}
-                </p>
+                <p className="mt-2 text-xs text-muted-foreground">{busy ? money(total) : "Boş"}</p>
               </button>
             );
           })}
@@ -239,6 +239,26 @@ function FloorsPage() {
           onCloseCheck={closeCheck}
         />
       )}
+
+      {/* Kat seçimi — masaüstünde sağda */}
+      <div className="hidden w-28 shrink-0 flex-col gap-2 border-l border-border p-3 lg:flex">
+        {FLOORS.map((f) => (
+          <button
+            key={f}
+            onClick={() => {
+              setFloor(f);
+              setTable(null);
+            }}
+            className={`rounded-md px-3 py-4 text-sm font-semibold transition-colors ${
+              floor === f
+                ? "bg-primary text-primary-foreground"
+                : "border border-border hover:bg-accent"
+            }`}
+          >
+            Kat {f}
+          </button>
+        ))}
+      </div>
     </div>
   );
 }
@@ -273,38 +293,40 @@ function TablePanel({
   const categories = Array.from(new Set(menu.map((m) => m.category)));
 
   return (
-    <aside className="flex w-[26rem] shrink-0 flex-col border-l border-border bg-card">
+    <aside className="fixed inset-0 z-40 flex flex-col border-border bg-card lg:static lg:z-auto lg:w-[26rem] lg:shrink-0 lg:border-l">
       <div className="flex items-center justify-between border-b border-border px-4 py-3">
         <p className="font-semibold">
           Kat {floor} · Masa {table}
         </p>
-        <button onClick={onClose} className="rounded p-1 hover:bg-accent">
+        <button onClick={onClose} className="rounded p-2 hover:bg-accent" aria-label="Kapat">
           <X className="h-4 w-4" />
         </button>
       </div>
 
-      <div className="max-h-[40vh] overflow-y-auto border-b border-border p-4">
+      <div className="max-h-[35vh] overflow-y-auto border-b border-border p-4 lg:max-h-[40vh]">
         {orders.length === 0 ? (
           <p className="text-sm text-muted-foreground">Bu masada henüz sipariş yok.</p>
         ) : (
           <ul className="space-y-2">
             {orders.map((o) => (
               <li key={o.id} className="flex items-center gap-2 text-sm">
-                <span className="flex-1">
-                  {o.item_name}
-                  <span className="ml-2 text-xs text-muted-foreground">
+                <span className="min-w-0 flex-1">
+                  <span className="block truncate">{o.item_name}</span>
+                  <span className="text-xs text-muted-foreground">
                     {o.status === "hazir" ? "hazır" : o.status}
                   </span>
                 </span>
-                <button onClick={() => onQty(o, -1)} className="rounded border border-border p-1">
+                <button onClick={() => onQty(o, -1)} className="rounded border border-border p-1.5">
                   <Minus className="h-3 w-3" />
                 </button>
                 <span className="w-6 text-center">{o.quantity}</span>
-                <button onClick={() => onQty(o, 1)} className="rounded border border-border p-1">
+                <button onClick={() => onQty(o, 1)} className="rounded border border-border p-1.5">
                   <Plus className="h-3 w-3" />
                 </button>
-                <span className="w-20 text-right">{money(Number(o.unit_price) * o.quantity)}</span>
-                <button onClick={() => onRemove(o)} className="rounded p-1 hover:bg-accent">
+                <span className="w-20 shrink-0 text-right">
+                  {money(Number(o.unit_price) * o.quantity)}
+                </span>
+                <button onClick={() => onRemove(o)} className="rounded p-1.5 hover:bg-accent">
                   <Trash2 className="h-3.5 w-3.5 text-destructive" />
                 </button>
               </li>
@@ -313,7 +335,7 @@ function TablePanel({
         )}
       </div>
 
-      <div className="flex-1 overflow-y-auto p-4">
+      <div className="min-h-0 flex-1 overflow-y-auto p-4">
         <p className="mb-2 text-xs tracking-widest text-muted-foreground">MENÜ</p>
         {categories.map((c) => (
           <div key={c} className="mb-4">
@@ -325,7 +347,7 @@ function TablePanel({
                   <button
                     key={m.id}
                     onClick={() => onAdd(m)}
-                    className="rounded-md border border-border px-2 py-2 text-left text-xs hover:bg-accent"
+                    className="rounded-md border border-border px-2 py-2.5 text-left text-xs hover:bg-accent"
                   >
                     <span className="block">{m.name}</span>
                     <span className="text-muted-foreground">{money(Number(m.price))}</span>
@@ -336,7 +358,7 @@ function TablePanel({
         ))}
       </div>
 
-      <div className="space-y-3 border-t border-border p-4">
+      <div className="space-y-3 border-t border-border p-4 pb-[max(1rem,env(safe-area-inset-bottom))]">
         <div className="flex items-center justify-between">
           <span className="text-sm text-muted-foreground">Toplam</span>
           <span className="font-display text-2xl text-primary">{money(total)}</span>
@@ -346,7 +368,7 @@ function TablePanel({
             <button
               key={p}
               onClick={() => setPayment(p)}
-              className={`flex-1 rounded-md px-2 py-2 text-xs capitalize ${
+              className={`flex-1 rounded-md px-2 py-2.5 text-xs capitalize ${
                 payment === p
                   ? "bg-primary text-primary-foreground"
                   : "border border-border hover:bg-accent"
@@ -365,14 +387,14 @@ function TablePanel({
         <button
           onClick={() => onCloseCheck(payment, note)}
           disabled={orders.length === 0}
-          className="flex w-full items-center justify-center gap-2 rounded-md bg-primary px-3 py-2.5 text-sm font-semibold text-primary-foreground disabled:opacity-50"
+          className="flex w-full items-center justify-center gap-2 rounded-md bg-primary px-3 py-3 text-sm font-semibold text-primary-foreground disabled:opacity-50"
         >
           <Receipt className="h-4 w-4" /> Hesabı kapat ve muhasebeye aktar
         </button>
         <button
           onClick={onClear}
           disabled={orders.length === 0}
-          className="w-full rounded-md border border-border px-3 py-2 text-xs text-destructive disabled:opacity-50"
+          className="w-full rounded-md border border-border px-3 py-2.5 text-xs text-destructive disabled:opacity-50"
         >
           Masayı sıfırla (ödeme almadan)
         </button>

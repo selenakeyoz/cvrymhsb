@@ -12,7 +12,6 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as AuthenticatedKatlarRouteImport } from './routes/_authenticated/katlar'
-import { Route as AuthenticatedMenuRouteImport } from './routes/_authenticated/menu'
 import { Route as AuthenticatedMuhasebeRouteImport } from './routes/_authenticated/muhasebe'
 import { Route as AuthenticatedMutfakRouteImport } from './routes/_authenticated/mutfak'
 import { Route as AuthenticatedYonetimRouteImport } from './routes/_authenticated/yonetim'
@@ -30,11 +29,6 @@ const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
 const AuthenticatedKatlarRoute = AuthenticatedKatlarRouteImport.update({
   id: '/katlar',
   path: '/katlar',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedMenuRoute = AuthenticatedMenuRouteImport.update({
-  id: '/menu',
-  path: '/menu',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const AuthenticatedMuhasebeRoute = AuthenticatedMuhasebeRouteImport.update({
@@ -61,7 +55,6 @@ const ApiPublicHooksGunSonuRoute = ApiPublicHooksGunSonuRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/katlar': typeof AuthenticatedKatlarRoute
-  '/menu': typeof AuthenticatedMenuRoute
   '/muhasebe': typeof AuthenticatedMuhasebeRoute
   '/mutfak': typeof AuthenticatedMutfakRoute
   '/yonetim': typeof AuthenticatedYonetimRoute
@@ -70,7 +63,6 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/katlar': typeof AuthenticatedKatlarRoute
-  '/menu': typeof AuthenticatedMenuRoute
   '/muhasebe': typeof AuthenticatedMuhasebeRoute
   '/mutfak': typeof AuthenticatedMutfakRoute
   '/yonetim': typeof AuthenticatedYonetimRoute
@@ -81,7 +73,6 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/_authenticated/katlar': typeof AuthenticatedKatlarRoute
-  '/_authenticated/menu': typeof AuthenticatedMenuRoute
   '/_authenticated/muhasebe': typeof AuthenticatedMuhasebeRoute
   '/_authenticated/mutfak': typeof AuthenticatedMutfakRoute
   '/_authenticated/yonetim': typeof AuthenticatedYonetimRoute
@@ -92,7 +83,6 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/katlar'
-    | '/menu'
     | '/muhasebe'
     | '/mutfak'
     | '/yonetim'
@@ -101,7 +91,6 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/katlar'
-    | '/menu'
     | '/muhasebe'
     | '/mutfak'
     | '/yonetim'
@@ -111,7 +100,6 @@ export interface FileRouteTypes {
     | '/'
     | '/_authenticated'
     | '/_authenticated/katlar'
-    | '/_authenticated/menu'
     | '/_authenticated/muhasebe'
     | '/_authenticated/mutfak'
     | '/_authenticated/yonetim'
@@ -147,13 +135,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedKatlarRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
-    '/_authenticated/menu': {
-      id: '/_authenticated/menu'
-      path: '/menu'
-      fullPath: '/menu'
-      preLoaderRoute: typeof AuthenticatedMenuRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
     '/_authenticated/muhasebe': {
       id: '/_authenticated/muhasebe'
       path: '/muhasebe'
@@ -187,7 +168,6 @@ declare module '@tanstack/react-router' {
 
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedKatlarRoute: typeof AuthenticatedKatlarRoute
-  AuthenticatedMenuRoute: typeof AuthenticatedMenuRoute
   AuthenticatedMuhasebeRoute: typeof AuthenticatedMuhasebeRoute
   AuthenticatedMutfakRoute: typeof AuthenticatedMutfakRoute
   AuthenticatedYonetimRoute: typeof AuthenticatedYonetimRoute
@@ -195,7 +175,6 @@ interface AuthenticatedRouteRouteChildren {
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedKatlarRoute: AuthenticatedKatlarRoute,
-  AuthenticatedMenuRoute: AuthenticatedMenuRoute,
   AuthenticatedMuhasebeRoute: AuthenticatedMuhasebeRoute,
   AuthenticatedMutfakRoute: AuthenticatedMutfakRoute,
   AuthenticatedYonetimRoute: AuthenticatedYonetimRoute,
